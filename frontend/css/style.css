@@ -920,8 +920,8 @@ input[type="text"]:focus, input[type="number"]:focus, .form-select:focus {
     margin-top: 2px;
 }
 
-/* Galaxy WebGL background */
-#galaxy-bg {
+/* Interactive Dot Grid background */
+#dot-grid {
     position: fixed;
     top: 0;
     left: 0;
@@ -929,5 +929,5 @@ input[type="text"]:focus, input[type="number"]:focus, .form-select:focus {
     height: 100vh;
     z-index: -2;
     pointer-events: none;
-    background-color: #040209; /* dark dark space fallback */
+    background-color: #06040a; /* Dark space background */
 }
