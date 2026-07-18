@@ -166,6 +166,40 @@ class GestureEngine:
             self.gesture_buffer.clear()
             return
             
+        # Strict physical heuristic validation to prevent random hand shape false positives
+        landmarks = self.active_landmarks
+        if landmarks and len(landmarks) >= 21:
+            def get_dist(p1, p2):
+                return ((p1['x'] - p2['x'])**2 + (p1['y'] - p2['y'])**2 + (p1['z'] - p2['z'])**2)**0.5
+                
+            wrist = landmarks[0]
+            
+            # Extension state relative to wrist: straight (>1.10) vs curled (<0.9)
+            index_ext = get_dist(landmarks[8], wrist) > get_dist(landmarks[6], wrist) * 1.10
+            middle_ext = get_dist(landmarks[12], wrist) > get_dist(landmarks[10], wrist) * 1.10
+            ring_ext = get_dist(landmarks[16], wrist) > get_dist(landmarks[14], wrist) * 1.10
+            pinky_ext = get_dist(landmarks[20], wrist) > get_dist(landmarks[18], wrist) * 1.10
+            
+            is_valid = True
+            
+            if gesture_name in ["Volume Up", "Volume Down"]:
+                # Volume actions (Thumbs Up/Down) strictly require all 4 main fingers curled
+                if index_ext or middle_ext or ring_ext or pinky_ext:
+                    is_valid = False
+            elif gesture_name in ["Previous", "Next"]:
+                # Prev/Next (Two Fingers) strictly requires Index and Middle extended, and Ring/Pinky curled
+                if not index_ext or not middle_ext or ring_ext or pinky_ext:
+                    is_valid = False
+            elif gesture_name == "Play/Pause":
+                # Play/Pause (Raised Hand/Open Palm) strictly requires all fingers extended
+                if not index_ext or not middle_ext or not ring_ext or not pinky_ext:
+                    is_valid = False
+                    
+            if not is_valid:
+                # Discard predictions violating geometric criteria
+                self.gesture_buffer.clear()
+                return
+            
         # Add to rolling buffer for smoothing
         self.gesture_buffer.append(gesture_name)
         if len(self.gesture_buffer) > self.buffer_size:
