@@ -132,9 +132,9 @@ def generate_base_gestures():
     # Ring & Pinky curled
     for idx in range(13, 21):
         two_left[idx] = fist[idx]
-    gestures["Next"] = two_left
+    gestures["Previous"] = two_left
 
-    # ------------------ GESTURE 5: TWO RIGHT FINGER (Previous) ------------------
+    # ------------------ GESTURE 5: TWO RIGHT FINGER (Next) ------------------
     # Index + Middle pointing right (positive X axis, Y stays flat)
     two_right = np.zeros((21, 3))
     two_right[0] = [0.0, 0.0, 0.0]
@@ -156,7 +156,7 @@ def generate_base_gestures():
     # Ring & Pinky curled
     for idx in range(13, 21):
         two_right[idx] = fist[idx]
-    gestures["Previous"] = two_right
+    gestures["Next"] = two_right
 
     # ------------------ GESTURE 6: IDLE / REST (Idle) ------------------
     # Relaxed hand, slightly curved
