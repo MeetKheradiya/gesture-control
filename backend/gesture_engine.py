@@ -193,9 +193,19 @@ class GestureEngine:
                 # Prev/Next (Two Fingers) strictly requires Index and Middle extended, and Ring/Pinky curled
                 if not index_ext or not middle_ext or ring_ext or pinky_ext:
                     is_valid = False
-            elif gesture_name in ["Play/Pause", "Fast Forward", "Rewind"]:
-                # Play/Pause, Fast Forward, Rewind (Raised Hand/Open Palm) strictly require all fingers extended
+            elif gesture_name == "Play/Pause":
+                # Play/Pause (Raised Hand/Open Palm) strictly requires all fingers extended
                 if not index_ext or not middle_ext or not ring_ext or not pinky_ext:
+                    is_valid = False
+            elif gesture_name in ["Fast Forward", "Rewind"]:
+                # Fast Forward / Rewind (Pinch) strictly require Thumb and Index tips touching
+                p4 = landmarks[4]
+                p8 = landmarks[8]
+                p5 = landmarks[5]
+                p17 = landmarks[17]
+                dist_pinch = get_dist(p4, p8)
+                dist_palm = get_dist(p5, p17)
+                if dist_palm == 0 or dist_pinch >= dist_palm * 0.35:
                     is_valid = False
                     
             if not is_valid:
@@ -321,8 +331,21 @@ class GestureEngine:
                     sample_lms = [[lm.x, lm.y, lm.z] for lm in hand_landmarks]
                     gesture_name, confidence = self.model_manager.predict(sample_lms)
                     
-                    # Split Raised Hand (Play/Pause) into Fast Forward / Rewind based on rotation angle
-                    if gesture_name == "Play/Pause":
+                    # Intercept and override if the hand is in a Pinch state
+                    is_pinching = False
+                    try:
+                        p4 = raw_landmarks[4]
+                        p8 = raw_landmarks[8]
+                        p5 = raw_landmarks[5]
+                        p17 = raw_landmarks[17]
+                        dist_pinch = ((p4['x'] - p8['x'])**2 + (p4['y'] - p8['y'])**2 + (p4['z'] - p8['z'])**2)**0.5
+                        dist_palm = ((p5['x'] - p17['x'])**2 + (p5['y'] - p17['y'])**2 + (p5['z'] - p17['z'])**2)**0.5
+                        if dist_palm > 0 and dist_pinch < dist_palm * 0.35:
+                            is_pinching = True
+                    except Exception:
+                        pass
+                        
+                    if is_pinching:
                         try:
                             import math
                             p0 = raw_landmarks[0]
@@ -337,11 +360,16 @@ class GestureEngine:
                             # If tilted right by more than 28 degrees -> Fast Forward
                             if tilt > 28:
                                 gesture_name = "Fast Forward"
+                                confidence = 0.99
                             # If tilted left by more than 28 degrees -> Rewind
                             elif tilt < -28:
                                 gesture_name = "Rewind"
+                                confidence = 0.99
+                            else:
+                                gesture_name = "Idle"
+                                confidence = 0.99
                         except Exception as te:
-                            print(f"[Engine] Palm tilt calculation error: {te}")
+                            print(f"[Engine] Pinch tilt calculation error: {te}")
                     
                     self.latest_prediction = gesture_name
                     self.latest_confidence = confidence

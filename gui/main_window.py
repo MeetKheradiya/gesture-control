@@ -64,7 +64,8 @@ class MainWindow(QMainWindow):
         items = [
             ("👍 Thumbs Up", "Volume Up"),
             ("👎 Thumbs Down", "Volume Down"),
-            ("✋ Raised Hand", "Play/Pause (Tilt to Seek)"),
+            ("✋ Raised Hand", "Play / Pause"),
+            ("👌 Pinch (Tilt)", "Seek Fwd / Rew"),
             ("👈 Left Fingers", "Prev Track"),
             ("👉 Right Fingers", "Next Track")
         ]
