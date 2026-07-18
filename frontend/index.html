@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+    <div id="galaxy-bg"></div>
     <div class="glass-bg-blobs">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
@@ -150,5 +151,18 @@
 
     <!-- App Scripts -->
     <script src="/js/app.js"></script>
+    
+    <!-- WebGL Galaxy Background Initialization -->
+    <script type="module">
+        import { initGalaxy } from '/js/galaxy.js';
+        initGalaxy(document.getElementById('galaxy-bg'), {
+            starSpeed: 0.15,
+            density: 1.2,
+            hueShift: 240,     /* Cyan/electric blue theme */
+            glowIntensity: 0.4,
+            transparent: true,
+            mouseInteraction: true
+        });
+    </script>
 </body>
 </html>
