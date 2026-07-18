@@ -65,8 +65,8 @@ class MainWindow(QMainWindow):
             ("👍 Thumbs Up", "Volume Up"),
             ("👎 Thumbs Down", "Volume Down"),
             ("✋ Raised Hand", "Play / Pause"),
-            ("👈 Left Fingers", "Prev Track"),
-            ("👉 Right Fingers", "Next Track")
+            ("👈 Left Fingers", "Next Track"),
+            ("👉 Right Fingers", "Prev Track")
         ]
         for emoji_name, action in items:
             lbl = QLabel(f"<b>{emoji_name}</b><br/><font color='#9ca3af'>{action}</font>")
