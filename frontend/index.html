@@ -30,20 +30,6 @@
                     <h1>DeskPilot</h1>
                     <span>AI Gesture Laptop Controller</span>
                 </div>
-            </div>
-            <div class="header-badges">
-                <button id="btn-gravity" class="status-badge action-badge" style="cursor: pointer; background: rgba(155, 81, 224, 0.15); border: 1px solid #9b51e0; color: #c084fc; font-family: inherit; font-size: 0.75rem; font-weight: 600; display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 6px; transition: all 0.2s ease;">
-                    <i class="fa-solid fa-feather-pointed"></i> Zero Gravity
-                </button>
-                <div id="connection-status" class="status-badge status-offline">
-                    <span class="pulse-dot"></span>
-                    <span class="status-text">Connecting...</span>
-                </div>
-                <div id="driver-status" class="status-badge info-badge">
-                    <i class="fa-solid fa-gamepad"></i>
-                    <span id="active-driver-badge">Local</span>
-                </div>
-            </div>
         </header>
 
         <!-- MAIN DASHBOARD GRID -->
@@ -158,17 +144,9 @@
     <!-- Interactive Dot Grid Background Initialization -->
     <script type="module">
         import { initDotGrid } from '/js/dotgrid.js';
-        import { initAntigravity } from '/js/antigravity.js';
         
         // Start dot grid background
         initDotGrid(document.getElementById('dot-grid'));
-        
-        // Set up Antigravity toggle
-        const gravityEngine = initAntigravity();
-        document.getElementById('btn-gravity').addEventListener('click', () => {
-            gravityEngine.activate();
-            document.getElementById('btn-gravity').style.display = 'none';
-        });
     </script>
 </body>
 </html>

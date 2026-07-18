@@ -35,6 +35,7 @@ document.getElementById("btn-clear-console").addEventListener("click", () => {
 // Update Status Badge
 function updateConnectionBadge(connected) {
     const badge = document.getElementById("connection-status");
+    if (!badge) return;
     const text = badge.querySelector(".status-text");
     
     if (connected) {
@@ -251,7 +252,8 @@ document.getElementById("btn-save-settings").addEventListener("click", async () 
         const data = await res.json();
         if (data.success) {
             log("Hardware settings saved successfully.", "success");
-            document.getElementById("active-driver-badge").textContent = driver;
+            const badge = document.getElementById("active-driver-badge");
+            if (badge) badge.textContent = driver;
         } else {
             log("Failed to save settings.", "danger");
         }
