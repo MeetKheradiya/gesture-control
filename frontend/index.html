@@ -38,10 +38,19 @@
             <!-- LEFT COLUMN: LIVE FEED & VISUALS -->
             <section class="grid-section feed-section">
                 <div class="section-card camera-card">
-                    <div class="card-header">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
                         <h2><i class="fa-solid fa-video"></i> Real-time Feed</h2>
-                        <div class="camera-stats">
-                            <span id="fps-counter">30 FPS</span>
+                        <div class="camera-controls" style="display: flex; align-items: center; gap: 12px;">
+                            <div class="camera-selector-wrapper" style="display: flex; align-items: center; gap: 6px;">
+                                <i class="fa-solid fa-camera" style="color: #00f2fe; font-size: 0.85rem;"></i>
+                                <select id="select-camera" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; border-radius: 6px; padding: 4px 8px; font-size: 0.75rem; font-family: inherit; cursor: pointer; outline: none; transition: border-color 0.2s;">
+                                    <option value="0">Camera 0 (Default)</option>
+                                    <option value="1">Camera 1</option>
+                                    <option value="2">Camera 2</option>
+                                    <option value="3">Camera 3</option>
+                                </select>
+                            </div>
+                            <span id="fps-counter" style="background: rgba(0, 242, 254, 0.1); border: 1px solid rgba(0, 242, 254, 0.25); color: #00f2fe; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">30 FPS</span>
                         </div>
                     </div>
                     <div class="video-container">
