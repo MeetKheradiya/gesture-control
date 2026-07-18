@@ -876,3 +876,46 @@ input[type="text"]:focus, input[type="number"]:focus, .form-select:focus {
 .log-line.text-warning { color: var(--accent-orange); }
 .log-line.text-danger { color: var(--accent-pink); }
 .log-line.text-dim { color: var(--text-muted); }
+
+/* Gesture Guide Card Styles */
+.guide-card {
+    margin-top: 24px;
+}
+.guide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+}
+.guide-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.2s ease;
+}
+.guide-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(0, 242, 254, 0.25);
+    transform: translateY(-2px);
+}
+.guide-item .emoji {
+    font-size: 24px;
+}
+.guide-details {
+    display: flex;
+    flex-direction: column;
+}
+.guide-details .gesture-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #e5e7eb;
+}
+.guide-details .gesture-value {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 2px;
+}

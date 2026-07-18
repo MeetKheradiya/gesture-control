@@ -177,7 +177,7 @@ class GestureEngine:
             
             # Dynamic cooldown: Volume changes adjust rapidly, while other actions hold standard cooldowns
             if gesture_name in ["Volume Up", "Volume Down"]:
-                cooldown = 0.20  # 5 steps per second repeat speed
+                cooldown = 0.10  # 10 steps per second repeat speed
             else:
                 cooldown = 1.2   # Safety delay for toggle commands
             
@@ -192,7 +192,10 @@ class GestureEngine:
                     else:
                         self.last_command_executed = f"Failed: {gesture_name}"
                     self.last_command_time = current_time
-                    self.gesture_buffer.clear() # Clear to prevent immediate double firing
+                    
+                    # Only clear buffer for toggle commands, allowing volume commands to fire continuously
+                    if gesture_name not in ["Volume Up", "Volume Down"]:
+                        self.gesture_buffer.clear()
 
     def _run(self):
         """Internal processing loop run inside thread."""

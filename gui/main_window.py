@@ -16,7 +16,7 @@ from gui.style import DARK_THEME, LIGHT_THEME
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("AuraCast AI Smart TV Controller")
+        self.setWindowTitle("DeskPilot Desktop Controller")
         self.resize(1024, 768)
         
         # Initialize background processing thread
@@ -39,7 +39,7 @@ class MainWindow(QMainWindow):
         
         # Application Header
         header_layout = QHBoxLayout()
-        logo_label = QLabel(" AuraCast Dashboard")
+        logo_label = QLabel(" DeskPilot Dashboard")
         logo_font = QFont("Outfit", 18, QFont.Bold)
         logo_label.setFont(logo_font)
         logo_label.setStyleSheet("color: #00f2fe;")
@@ -56,6 +56,26 @@ class MainWindow(QMainWindow):
         # Camera preview widget added directly (no tabs!)
         self.camera_widget = CameraWidget(self.camera_thread)
         main_layout.addWidget(self.camera_widget)
+        
+        # Add visual reference guide box at the bottom
+        guide_box = QGroupBox("DeskPilot Gesture Reference Guide")
+        guide_layout = QHBoxLayout(guide_box)
+        
+        items = [
+            ("👍 Thumbs Up", "Volume Up"),
+            ("👎 Thumbs Down", "Volume Down"),
+            ("✊ Closed Fist", "Mute Audio"),
+            ("✌️ Two Fingers", "Play / Pause"),
+            ("👈 Left Fingers", "Prev Track"),
+            ("👉 Right Fingers", "Next Track")
+        ]
+        for emoji_name, action in items:
+            lbl = QLabel(f"<b>{emoji_name}</b><br/><font color='#9ca3af'>{action}</font>")
+            lbl.setAlignment(Qt.AlignCenter)
+            lbl.setStyleSheet("background-color: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 8px;")
+            guide_layout.addWidget(lbl)
+            
+        main_layout.addWidget(guide_box)
 
     def log_message(self, msg, level="info"):
         print(f"[{level.upper()}] {msg}")
