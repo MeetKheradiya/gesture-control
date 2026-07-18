@@ -1,0 +1,13 @@
+opencv-python>=4.8.0
+mediapipe>=0.10.0
+numpy>=1.24.0
+torch>=2.0.0
+fastapi>=0.100.0
+uvicorn>=0.22.0
+websockets>=11.0
+pyautogui>=0.9.54
+keyboard>=0.13.5
+requests>=2.31.0
+PySide6>=6.5.0
+qasync>=0.23.0
+pyinstaller>=5.13.0

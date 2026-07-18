@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Smart TV Gesture Controller Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="glass-bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="logo">
+                <i class="fa-solid fa-hand-sparkles logo-icon"></i>
+                <div class="logo-text">
+                    <h1>AuraCast</h1>
+                    <span>AI Gesture TV Controller</span>
+                </div>
+            </div>
+            <div class="header-badges">
+                <div id="connection-status" class="status-badge status-offline">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text">Connecting...</span>
+                </div>
+                <div id="driver-status" class="status-badge info-badge">
+                    <i class="fa-solid fa-gamepad"></i>
+                    <span id="active-driver-badge">Local</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN DASHBOARD GRID -->
+        <main class="dashboard-grid">
+            
+            <!-- LEFT COLUMN: LIVE FEED & VISUALS -->
+            <section class="grid-section feed-section">
+                <div class="section-card camera-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-video"></i> Real-time Feed</h2>
+                        <div class="camera-stats">
+                            <span id="fps-counter">30 FPS</span>
+                        </div>
+                    </div>
+                    <div class="video-container">
+                        <img id="video-stream" src="/video_feed" alt="Camera Live Feed" crossorigin="anonymous">
+                        <canvas id="skeleton-canvas"></canvas>
+                        
+                        <!-- Standby overlay if feed fails -->
+                        <div id="standby-overlay" class="overlay-hidden">
+                            <i class="fa-solid fa-camera-rotate"></i>
+                            <p>Camera offline or starting...</p>
+                        </div>
+                        
+                        <!-- Recording HUD overlay -->
+                        <div id="recording-hud" class="hud-overlay overlay-hidden">
+                            <div class="hud-content">
+                                <div class="hud-spinner"></div>
+                                <h3 id="hud-gesture-name">RECORDING</h3>
+                                <p id="hud-progress">0 / 100</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hud-stats-row">
+                        <div class="stat-box">
+                            <span class="label">Detected Gesture</span>
+                            <span id="stat-gesture" class="val highlight">None</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="label">Confidence</span>
+                            <div class="confidence-bar-container">
+                                <div id="stat-confidence-bar" class="confidence-bar" style="width: 0%"></div>
+                            </div>
+                            <span id="stat-confidence" class="val">0.0%</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="label">Last Action</span>
+                            <span id="stat-command" class="val">None</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+        </main>
+    </div>
+
+    <!-- App Scripts -->
+    <script src="/js/app.js"></script>
+</body>
+</html>
