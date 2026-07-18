@@ -85,30 +85,30 @@ def generate_base_gestures():
         thumbs_down[idx] = [-thumbs_up[idx][0], -thumbs_up[idx][1], thumbs_up[idx][2]]
     gestures["Volume Down"] = thumbs_down
 
-    # ------------------ GESTURE 2: CLOSED FIST (Mute) ------------------
-    # All fingers curled
-    gestures["Mute"] = fist
-
-    # ------------------ GESTURE 3: TWO FINGER UP (Play/Pause) ------------------
-    # Index + Middle straight up, Thumb/Ring/Pinky curled
-    two_finger = np.zeros((21, 3))
-    two_finger[0] = [0.0, 0.0, 0.0]
-    # Thumb curled
-    two_finger[1] = fist[1]
-    two_finger[2] = fist[2]
-    two_finger[3] = fist[3]
-    two_finger[4] = fist[4]
+    # ------------------ GESTURE 2: RAISED HAND (Play/Pause) ------------------
+    # All fingers straight up (Open Palm)
+    raised_hand = np.zeros((21, 3))
+    raised_hand[0] = [0.0, 0.0, 0.0]
+    # Thumb pointing up/slanted
+    raised_hand[1] = [0.05, -0.08, -0.02]
+    raised_hand[2] = [0.10, -0.16, -0.04]
+    raised_hand[3] = [0.14, -0.23, -0.05]
+    raised_hand[4] = [0.18, -0.30, -0.06]
     # Index straight up
-    two_finger[5:9] = index_up
+    raised_hand[5:9] = index_up
     # Middle straight up
-    two_finger[9:13] = middle_up
-    # Ring curled
-    for idx in range(13, 17):
-        two_finger[idx] = fist[idx]
-    # Pinky curled
-    for idx in range(17, 21):
-        two_finger[idx] = fist[idx]
-    gestures["Play/Pause"] = two_finger
+    raised_hand[9:13] = middle_up
+    # Ring straight up
+    raised_hand[13] = [-0.08, -0.18, -0.02]
+    raised_hand[14] = [-0.10, -0.32, -0.04]
+    raised_hand[15] = [-0.11, -0.42, -0.05]
+    raised_hand[16] = [-0.12, -0.52, -0.06]
+    # Pinky straight up
+    raised_hand[17] = [-0.14, -0.15, -0.02]
+    raised_hand[18] = [-0.18, -0.26, -0.04]
+    raised_hand[19] = [-0.20, -0.35, -0.05]
+    raised_hand[20] = [-0.22, -0.44, -0.06]
+    gestures["Play/Pause"] = raised_hand
 
     # ------------------ GESTURE 4: TWO LEFT FINGER (Previous) ------------------
     # Index + Middle pointing left (negative X axis, Y stays flat)
