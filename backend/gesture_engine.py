@@ -183,8 +183,11 @@ class GestureEngine:
             is_valid = True
             
             if gesture_name in ["Volume Up", "Volume Down"]:
-                # Volume actions (Thumbs Up/Down) strictly require all 4 main fingers curled
-                if index_ext or middle_ext or ring_ext or pinky_ext:
+                # Volume actions (Thumbs Up/Down) strictly require:
+                # 1. The thumb to be extended (dist from tip 4 to wrist > dist from joint 2 to wrist)
+                # 2. All 4 other fingers curled
+                thumb_ext = get_dist(landmarks[4], wrist) > get_dist(landmarks[2], wrist) * 1.10
+                if not thumb_ext or index_ext or middle_ext or ring_ext or pinky_ext:
                     is_valid = False
             elif gesture_name in ["Previous", "Next"]:
                 # Prev/Next (Two Fingers) strictly requires Index and Middle extended, and Ring/Pinky curled
