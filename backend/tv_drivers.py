@@ -71,7 +71,9 @@ class LocalPCController(BaseTVController):
             "Next": "next track",
             "Previous": "previous track",
             "Power On/Off": "browser home",
-            "Home": "browser home"
+            "Home": "browser home",
+            "Fast Forward": "right",
+            "Rewind": "left"
         }
         
         # 1. Try sending via keyboard module first (more reliable on Windows/Mac)

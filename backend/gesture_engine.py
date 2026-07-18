@@ -193,8 +193,8 @@ class GestureEngine:
                 # Prev/Next (Two Fingers) strictly requires Index and Middle extended, and Ring/Pinky curled
                 if not index_ext or not middle_ext or ring_ext or pinky_ext:
                     is_valid = False
-            elif gesture_name == "Play/Pause":
-                # Play/Pause (Raised Hand/Open Palm) strictly requires all fingers extended
+            elif gesture_name in ["Play/Pause", "Fast Forward", "Rewind"]:
+                # Play/Pause, Fast Forward, Rewind (Raised Hand/Open Palm) strictly require all fingers extended
                 if not index_ext or not middle_ext or not ring_ext or not pinky_ext:
                     is_valid = False
                     
@@ -213,8 +213,8 @@ class GestureEngine:
             current_time = time.time()
             
             # Dynamic cooldown: Volume changes adjust rapidly, while other actions hold standard cooldowns
-            if gesture_name in ["Volume Up", "Volume Down"]:
-                cooldown = 0.10  # 10 steps per second repeat speed
+            if gesture_name in ["Volume Up", "Volume Down", "Fast Forward", "Rewind"]:
+                cooldown = 0.15  # rapid repeat speed for seekbar and volume
             else:
                 cooldown = 1.2   # Safety delay for toggle commands
             
@@ -230,8 +230,8 @@ class GestureEngine:
                         self.last_command_executed = f"Failed: {gesture_name}"
                     self.last_command_time = current_time
                     
-                    # Only clear buffer for toggle commands, allowing volume commands to fire continuously
-                    if gesture_name not in ["Volume Up", "Volume Down"]:
+                    # Only clear buffer for toggle commands, allowing volume and seekbar commands to fire continuously
+                    if gesture_name not in ["Volume Up", "Volume Down", "Fast Forward", "Rewind"]:
                         self.gesture_buffer.clear()
 
     def _run(self):
@@ -320,6 +320,28 @@ class GestureEngine:
                     # Normal Mode: Predict gesture
                     sample_lms = [[lm.x, lm.y, lm.z] for lm in hand_landmarks]
                     gesture_name, confidence = self.model_manager.predict(sample_lms)
+                    
+                    # Split Raised Hand (Play/Pause) into Fast Forward / Rewind based on rotation angle
+                    if gesture_name == "Play/Pause":
+                        try:
+                            import math
+                            p0 = raw_landmarks[0]
+                            p9 = raw_landmarks[9]
+                            dx = p9['x'] - p0['x']
+                            dy = p9['y'] - p0['y']
+                            angle_deg = math.degrees(math.atan2(dy, dx))
+                            tilt = angle_deg + 90
+                            if tilt > 180: tilt -= 360
+                            elif tilt < -180: tilt += 360
+                            
+                            # If tilted right by more than 28 degrees -> Fast Forward
+                            if tilt > 28:
+                                gesture_name = "Fast Forward"
+                            # If tilted left by more than 28 degrees -> Rewind
+                            elif tilt < -28:
+                                gesture_name = "Rewind"
+                        except Exception as te:
+                            print(f"[Engine] Palm tilt calculation error: {te}")
                     
                     self.latest_prediction = gesture_name
                     self.latest_confidence = confidence
